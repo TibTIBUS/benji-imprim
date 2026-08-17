@@ -12,14 +12,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr">
       <body>
-        <form name="demande-devis" data-netlify="true" hidden>
-          <input type="text" name="name" />
-          <input type="text" name="company" />
-          <input type="email" name="email" />
-          <input type="tel" name="phone" />
-          <input type="text" name="need" />
-          <textarea name="message" />
-        </form>
         {children}
       </body>
     </html>

@@ -45,7 +45,7 @@ export default function Home() {
     setFormError(false);
     const formData = new FormData(event.currentTarget);
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
@@ -188,8 +188,9 @@ export default function Home() {
           {sent ? (
             <div className="success" role="status"><span>✓</span><h3>Merci pour votre demande.</h3><p>Votre projet a bien été préparé. Pour la version finale, ce formulaire sera relié à l'adresse de Benji Imprim.</p><button onClick={() => setSent(false)}>Envoyer une autre demande</button></div>
           ) : (
-            <form name="demande-devis" method="POST" data-netlify="true" onSubmit={handleSubmit}>
+            <form name="demande-devis" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit}>
               <input type="hidden" name="form-name" value="demande-devis" />
+              <p hidden><label>Ne pas remplir ce champ<input name="bot-field" /></label></p>
               <div className="field-row"><label>Nom et prénom<input required name="name" placeholder="Votre nom" /></label><label>Entreprise<input name="company" placeholder="Nom de l'entreprise" /></label></div>
               <div className="field-row"><label>E-mail<input required type="email" name="email" placeholder="vous@entreprise.fr" /></label><label>Téléphone<input type="tel" name="phone" placeholder="06 00 00 00 00" /></label></div>
               <label>Votre besoin<select name="need" defaultValue=""><option value="" disabled>Sélectionnez un service</option><option>Prototypage rapide</option><option>Pièce fonctionnelle</option><option>Petite série</option><option>Objet sur mesure</option><option>Je ne sais pas encore</option></select></label>
