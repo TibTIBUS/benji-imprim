@@ -127,10 +127,9 @@ export default function Home() {
     formData.set("social", social);
     formData.set("estimated-total", price.total.toFixed(2));
     try {
-      const response = await fetch("/__forms.html", {
+      const response = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+        body: formData,
       });
       if (!response.ok) throw new Error("submission failed");
       setSent(true);
@@ -298,7 +297,7 @@ export default function Home() {
               <button type="button" onClick={() => setSent(false)}>Préparer une autre demande</button>
             </div>
           ) : (
-            <form name="demande-devis" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit}>
+            <form name="demande-devis" method="POST" encType="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit}>
               <input type="hidden" name="form-name" value="demande-devis" />
               <p hidden><label>Ne pas remplir<input name="bot-field" /></label></p>
 
@@ -307,7 +306,7 @@ export default function Home() {
                 <div className="choice-grid three">
                   {sendModes.map((m) => <button key={m.id} type="button" className={activeMode === m.id ? "selected" : ""} onClick={() => setActiveMode(m.id)}><b>{m.title}</b><small>{m.note}</small></button>)}
                 </div>
-                {activeMode === "file" && <label className="upload-field"><span>Fichier 3D</span><input type="file" name="project-file" accept=".stl,.obj,.step,.stp,.3mf" /><small>STL, OBJ, STEP, 3MF · fichier facultatif pour cette maquette</small></label>}
+                {activeMode === "file" && <label className="upload-field"><span>Fichier 3D</span><input type="file" name="project-file" accept=".stl,.obj,.step,.stp,.3mf" /><small>STL, OBJ, STEP, 3MF · 8 Mo maximum</small></label>}
                 {activeMode === "link" && <label className="text-field"><span>Lien vers le modèle</span><input type="url" name="project-link" placeholder="https://…" /></label>}
                 {activeMode === "idea" && <label className="text-field"><span>Décrivez votre idée</span><textarea name="project-idea" rows={3} placeholder="Ce que vous voulez fabriquer, dimensions approximatives, usage…" /></label>}
               </section>
